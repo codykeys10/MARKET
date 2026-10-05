@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghetto Skills Hub | Campus Marketplace</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    /* Custom Scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Custom Keyframe Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* Animation Utility Classes */
+    .animate-card-entry {
+      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-modal-pop {
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-pop-icon {
+      animation: heartPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Card Glow & Hover Effects */
+    .hustler-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .hustler-card:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(16, 185, 129, 0.6) !important;
+      box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.15) !important;
+    }
+
+    .avatar-option {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .avatar-option.selected {
+      border-color: #10b981 !important;
+      transform: scale(1.15);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    }
+/* ================= MINIMALIST FOOTER ================= */
+.site-footer {
+  background-color: #080d1a !important;
+  border-top: 1px solid #1e293b;
+  padding: 25px 15px 20px 15px !important;
+  margin-top: 40px !important;
+  text-align: center;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
+
+.footer-brand-title {
+  color: #ffffff !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.footer-brand-title span {
+  color: #38bdf8 !important;
+}
+
+.footer-links-inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links-inline button,
+.footer-links-inline a {
+  color: #94a3b8 !important;
+  text-decoration: none !important;
+  background: none !important;
+  border: none !important;
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.footer-links-inline button:hover,
+.footer-links-inline a:hover {
+  color: #38bdf8 !important;
+}
+
+.footer-copy {
+  color: #64748b !important;
+  font-size: 0.75rem;
+}
+
+/* POPUP MODAL STYLES */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #38bdf8;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 22px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.close-btn:hover { color: #ffffff; }
+
+/* PURE CSS MODAL - HAINAGA ZERO JAVASCRIPT ERROR */
+.modal-overlay {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Inapobofywa link (href="#modal") inaonekana mara moja */
+.modal-overlay:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  padding: 24px 20px 20px 20px;
+  border-radius: 12px;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  text-align: left;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #38bdf8;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px; 
+  right: 15px;
+  font-size: 24px;
+  color: #94a3b8;
+  text-decoration: none !important;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.close-btn:hover { 
+  color: #ffffff; 
+}
+
+/* SPAM BADGE STYLING */
+.badge-spam {
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-12 font-sans">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-lg animate-pulse shadow-lg shadow-emerald-500/20">
+          GH
+        </div>
+        <div>
+          <h1 class="font-bold text-base text-slate-100 leading-none">Ghetto Skills <span class="text-emerald-400">Hub</span></h1>
+          <p class="text-[10px] text-slate-400 mt-0.5">Campus Services & Marketplace</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="openDashboardBtn" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1 transition-transform active:scale-90">
+          <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i>
+          <span class="hidden sm:inline">Analytics</span>
+        </button>
+
+        <button id="openModalBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-1 transition-all hover:shadow-lg hover:shadow-emerald-500/30 active:scale-90">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Weka Huduma</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-md mx-auto px-4 py-4 space-y-4">
+
+    <!-- Search & Filters -->
+    <div class="space-y-2">
+      <div class="relative">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-500"></i>
+        <input type="text" id="searchInput" placeholder="Tafuta huduma au bidhaa (mfano: Laptop, Kusuka)..." 
+               class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-all focus:ring-1 focus:ring-emerald-500">
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <select id="collegeFilter" class="bg-slate-900 border border-slate-800 rounded-xl px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition">
+          <option value="ALL">Vyuoni Vyote</option>
+          <option value="UDSM Mlimani">UDSM Mlimani</option>
+          <option value="IFM Main">IFM Main</option>
+          <option value="CBE Dsm">CBE Dsm</option>
+          <option value="DIT Upanga">DIT Upanga</option>
+          <option value="Mzumbe Dsm">Mzumbe Dsm</option>
+          <option value="ARU">ARU</option>
+        </select>
+
+        <select id="categoryFilter" class="bg-slate-900 border border-slate-800 rounded-xl px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition">
+          <option value="ALL">Vipengele Vyote</option>
+          <option value="Tech & Repair">Tech & Repair</option>
+          <option value="Beauty & Style">Beauty & Style</option>
+          <option value="Bidhaa & Vitu">Bidhaa & Vitu</option>
+          <option value="Academics & Design">Academics & Design</option>
+          <option value="Chakula & Delivery">Chakula & Delivery</option>
+        </select>
+
+        <select id="sortFilter" class="bg-slate-900 border border-slate-800 rounded-xl px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition">
+          <option value="latest">Mapya Zaidi</option>
+          <option value="popular">Zenye Views/Likes</option>
+          <option value="price_asc">Bei: Chini -> Juu</option>
+          <option value="price_desc">Bei: Juu -> Chini</option>
+          <option value="favorites">Zangu (♥ Favorites)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Results Counter -->
+    <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+      <span id="resultsCount">Inapakia...</span>
+      <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 animate-pulse">Live Updates</span>
+    </div>
+
+    <!-- Cards Container -->
+    <div id="hustlersContainer" class="space-y-3"></div>
+  </main>
+
+  <!-- Modal: Weka Huduma / Bidhaa Mpya -->
+  <div id="registerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 max-h-[90vh] overflow-y-auto animate-modal-pop shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+          <i data-lucide="plus-square" class="w-4 h-4 text-emerald-400"></i>
+          Sajili Huduma au Bidhaa Mpya
+        </h2>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-slate-200 transition-transform active:scale-90">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="addHustlerForm" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Jina Lako / Brand Name *</label>
+          <input type="text" id="formName" required placeholder="mfano: Baraka Electronics" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-400 mb-1">Chuo *</label>
+            <select id="formCollege" required class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+              <option value="UDSM Mlimani">UDSM Mlimani</option>
+              <option value="IFM Main">IFM Main</option>
+              <option value="CBE Dsm">CBE Dsm</option>
+              <option value="DIT Upanga">DIT Upanga</option>
+              <option value="Mzumbe Dsm">Mzumbe Dsm</option>
+              <option value="ARU">ARU</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-400 mb-1">Kipengele *</label>
+            <select id="formCategory" required class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+              <option value="Tech & Repair">Tech & Repair</option>
+              <option value="Beauty & Style">Beauty & Style</option>
+              <option value="Bidhaa & Vitu">Bidhaa & Vitu</option>
+              <option value="Academics & Design">Academics & Design</option>
+              <option value="Chakula & Delivery">Chakula & Delivery</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">Eneo Unapopatikana (Location) *</label>
+          <input type="text" id="formLocation" required placeholder="mfano: Block C, Hall 4, au Msewe" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">Kichwa cha Huduma / Bidhaa *</label>
+          <input type="text" id="formTitle" required placeholder="mfano: Ninauza Sneaker Kali za Nike size 41" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+        </div>
+
+        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-slate-300 font-bold text-[11px]">Picha za Bidhaa / Huduma</label>
+            <span class="text-[10px] text-emerald-400 font-semibold">Mwisho Picha 5</span>
+          </div>
+          <input type="file" id="formProductImages" accept="image/*" multiple class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-slate-300 text-xs file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-xs file:bg-emerald-500 file:text-slate-950 hover:file:bg-emerald-400 cursor-pointer">
+          <p id="imageLimitNotice" class="text-[10px] text-slate-400">Unaweza kuchagua picha 1 hadi 5 kwa wakati mmoja.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-400 mb-1">Bei (TSh) *</label>
+            <input type="number" id="formPrice" required placeholder="30000" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+          </div>
+          <div>
+            <label class="block text-slate-400 mb-1">Namba ya WhatsApp *</label>
+            <input type="tel" id="formPhone" required placeholder="0712345678" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+          </div>
+        </div>
+
+        <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60 space-y-2">
+          <label class="block text-slate-300 font-bold text-[11px]">Picha ya Muuzaji / Profile Photo</label>
+          
+          <div>
+            <span class="text-[10px] text-slate-400 block mb-1">1. Pakia picha yako kutoka kwenye simu:</span>
+            <input type="file" id="formAvatarFile" accept="image/*" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-slate-300 text-xs file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-xs file:bg-emerald-500 file:text-slate-950 hover:file:bg-emerald-400 cursor-pointer">
+          </div>
+
+          <div class="text-center text-[10px] text-slate-500 uppercase font-bold">- AU -</div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block mb-1.5">2. Au chagua Avatar preset hapa chini:</span>
+            <div id="avatarPresetsContainer" class="flex items-center gap-2 overflow-x-auto pb-1">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer selected" data-url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer" data-url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer" data-url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer" data-url="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer" data-url="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150">
+              <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150" class="avatar-option w-10 h-10 rounded-xl object-cover border-2 border-transparent cursor-pointer" data-url="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">Maneno ya Kutafutia (Tags yatenganishe kwa koma)</label>
+          <input type="text" id="formTags" placeholder="mfano: Viatu, Nike, Sneaker, Black" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl transition-transform active:scale-95 flex items-center justify-center gap-2 mt-2 shadow-lg shadow-emerald-500/20">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Sajili Sasa</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Seller Analytics Dashboard -->
+  <div id="dashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 max-h-[90vh] overflow-y-auto animate-modal-pop shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+          <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+          Seller Analytics Portal
+        </h2>
+        <button id="closeDashboardBtn" class="text-slate-400 hover:text-slate-200 transition-transform active:scale-90">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="sellerLoginSection" class="space-y-3 text-xs">
+        <p class="text-slate-400">Weka namba yako ya WhatsApp uliyotumia kusajili bidhaa zako ili kuona engagement stats:</p>
+        <div class="flex gap-2">
+          <input type="tel" id="sellerPhoneInput" placeholder="0712345678 au 2557..." class="flex-1 bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-emerald-500 transition">
+          <button id="loadSellerStatsBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition-transform active:scale-95">Angalia</button>
+        </div>
+      </div>
+
+      <div id="sellerStatsView" class="space-y-4 hidden text-xs">
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+            <span class="text-[10px] text-slate-400 block">Total Views</span>
+            <span id="statTotalViews" class="text-lg font-bold text-emerald-400">0</span>
+          </div>
+          <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+            <span class="text-[10px] text-slate-400 block">Likes</span>
+            <span id="statTotalLikes" class="text-lg font-bold text-rose-400">0</span>
+          </div>
+          <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+            <span class="text-[10px] text-slate-400 block">WA Taps</span>
+            <span id="statTotalClicks" class="text-lg font-bold text-sky-400">0</span>
+          </div>
+        </div>
+
+        <h3 class="font-bold text-slate-200 border-b border-slate-800 pb-1">Bidhaa/Huduma Zako:</h3>
+        <div id="sellerItemsList" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+<!-- FOOTER HTML -->
+<footer class="site-footer">
+  <div class="footer-brand-title">
+    CAMPUS <span>PRODUCTS</span>
+  </div>
+
+  <div class="footer-links-inline">
+    <a href="#about-modal">Kuhusu Sisi</a>
+    <a href="#privacy-modal">Faragha</a>
+    <a href="#contact-modal">Mawasiliano</a>
+  </div>
+
+  <div class="footer-copy">
+    &copy; 2026 CB TECHNOLOGY TANZANIA. Haki zote zimehifadhiwa.
+  </div>
+
+<!-- ABOUT POPUP -->
+<div id="about-modal" class="modal-overlay">
+  <div class="modal-content">
+    <a href="#" class="close-btn">&times;</a>
+    <h3>Kuhusu Sisi</h3>
+    <p>Campus Products ni soko la kidijitali linalounganisha wanafunzi wa vyuo Tanzania kupata bidhaa na huduma bora kwa bei nafuu.</p>
+  </div>
+</div>
+
+<!-- PRIVACY POPUP -->
+<div id="privacy-modal" class="modal-overlay">
+  <div class="modal-content">
+    <a href="#" class="close-btn">&times;</a>
+    <h3>Sera ya Faragha</h3>
+    <p>Tunahifadhi taarifa zote za watumiaji wetu kwa usalama wa hali ya juu na hatuzitoi kwa mtu yeyote.</p>
+  </div>
+</div>
+
+<!-- CONTACT POPUP -->
+<div id="contact-modal" class="modal-overlay">
+  <div class="modal-content">
+    <a href="#" class="close-btn">&times;</a>
+    <h3>Mawasiliano</h3>
+    <p>📍 Visit Tanzania<br>✉️ cbtechtz@gmail.com<br>💬 WhatsApp: +255 628 736 259</p>
+  </div>
+</div>
+
+  </div>
+</div>
+
+</footer>
+  <!-- WEKA SCRIPT TAGS HAPA CHINI KABISA -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
+</body>
+  <!-- ... Code zako zote za juu za HTML na Footer ... -->
+
+  <footer class="site-footer">
+    <!-- Footer yako ipo hapa -->
+  </footer>
+
+
+
+</body>
+</html>
+
+</html>
