@@ -1,0 +1,21 @@
+{
+  "name": "ghetto-skills-hub",
+  "version": "1.0.0",
+  "description": "Campus Marketplace - Ghetto Skills Hub",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "marketplace",
+    "campus",
+    "skills"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
